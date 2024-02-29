@@ -22,7 +22,7 @@ app.get('/', (req, res) => { // the '/' means to look in the root directory of t
 })
 
 app.get('/api/students', (req, res) => {
-    rollbar.info('Someone got the student list')
+    rollbar.info('Someone accessed the student list')
     res.status(200).send(students)
 })
 
@@ -39,10 +39,10 @@ app.post('/api/students', (req, res) => {
            students.push(name)
            res.status(200).send(students)
        } else if (name === ''){
-           //rollbar.warning('Someone tried to add an empty string')
+           rollbar.warning('Someone tried to add an empty string')
            res.status(400).send('You must enter a name.')
        } else {
-           //rollbar.error('Someone tried to duplicate a student')
+           rollbar.critical('Someone tried to duplicate a student')
            res.status(400).send('That student already exists.')
        }
    } catch (err) {
@@ -60,6 +60,6 @@ app.delete('/api/students/:index', (req, res) => {
     res.status(200).send(students)
 })
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5050
 
 app.listen(port, () => console.log(`Server listening on ${port}`))
